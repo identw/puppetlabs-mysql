@@ -1,5 +1,9 @@
 # Binary log configuration requires the mysql user to be present. This must be done after package install
-class mysql::server::binarylog {
+class mysql::server::binarylog (
+  $log_dir_group = $mysql::server::log_dir_group,
+  $log_dir_mode  = $mysql::server::log_dir_mode,
+)
+{
 
   $options = $mysql::server::options
   $includedir = $mysql::server::includedir
@@ -13,9 +17,9 @@ class mysql::server::binarylog {
     if $logbindir != '.' {
       file { $logbindir:
         ensure => directory,
-        mode   => '0755',
+        mode   => $log_dir_mode,
         owner  => $options['mysqld']['user'],
-        group  => $options['mysqld']['user'],
+        group  => $log_group,
       }
     }
   }

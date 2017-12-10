@@ -462,6 +462,9 @@ class mysql::params {
     },
   }
 
+  $log_dir_group = $default_options['mysqld']['user']
+  $log_dir_mode  = '0755'
+
   ## Additional graceful failures
   if $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '4' and $::operatingsystem != 'Amazon' {
     fail(translate('Unsupported platform: puppetlabs-%{module_name} only supports RedHat 5.0 and beyond.', {'module_name' => $module_name}))
