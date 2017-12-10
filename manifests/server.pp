@@ -14,6 +14,8 @@ class mysql::server (
   $restart                 = $mysql::params::restart,
   $root_group              = $mysql::params::root_group,
   $mysql_group             = $mysql::params::mysql_group,
+  $log_dir_group           = $mysql::params::log_dir_group,
+  $log_dir_mode            = $mysql::params::log_dir_mode,
   $root_password           = $mysql::params::root_password,
   $service_enabled         = $mysql::params::server_service_enabled,
   $service_manage          = $mysql::params::server_service_manage,
@@ -55,7 +57,10 @@ class mysql::server (
 
   include '::mysql::server::config'
   include '::mysql::server::install'
-  include '::mysql::server::binarylog'
+  class { '::mysql::server::binarylog':
+      log_dir_group => $log_dir_group,
+      log_dir_mode  => $log_dir_mode,
+  }
   include '::mysql::server::installdb'
   include '::mysql::server::service'
   include '::mysql::server::root_password'
