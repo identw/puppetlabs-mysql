@@ -19,7 +19,7 @@ class mysql::server::binarylog (
         ensure => directory,
         mode   => $log_dir_mode,
         owner  => $options['mysqld']['user'],
-        group  => $log_group,
+        group  => $log_dir_group,
       }
     }
   }
