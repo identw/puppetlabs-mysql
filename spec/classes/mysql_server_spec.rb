@@ -185,20 +185,16 @@ describe 'mysql::server' do
 
           it {
             is_expected.to contain_mysql_user('foo@localhost').with(
-              max_connections_per_hour: '1',
-              max_queries_per_hour: '2',
-              max_updates_per_hour: '3',
-              max_user_connections: '4',
-              password_hash: '*F3A2A51A9B0F2BE2468926B4132313728C250DBF',
+              max_connections_per_hour: '1', max_queries_per_hour: '2',
+              max_updates_per_hour: '3', max_user_connections: '4',
+              password_hash: '*F3A2A51A9B0F2BE2468926B4132313728C250DBF'
             )
           }
           it {
             is_expected.to contain_mysql_user('foo2@localhost').with(
-              max_connections_per_hour: nil,
-              max_queries_per_hour: nil,
-              max_updates_per_hour: nil,
-              max_user_connections: nil,
-              password_hash: nil,
+              max_connections_per_hour: nil, max_queries_per_hour: nil,
+              max_updates_per_hour: nil, max_user_connections: nil,
+              password_hash: nil
             )
           }
         end
@@ -209,7 +205,7 @@ describe 'mysql::server' do
               'foo@localhost/somedb.*' => {
                 'user'       => 'foo@localhost',
                 'table'      => 'somedb.*',
-                'privileges' => %w[SELECT UPDATE],
+                'privileges' => ['SELECT', 'UPDATE'],
                 'options'    => ['GRANT'],
               },
               'foo2@localhost/*.*' => {
@@ -222,18 +218,14 @@ describe 'mysql::server' do
 
           it {
             is_expected.to contain_mysql_grant('foo@localhost/somedb.*').with(
-              user: 'foo@localhost',
-              table: 'somedb.*',
-              privileges: %w[SELECT UPDATE],
-              options: ['GRANT'],
+              user: 'foo@localhost', table: 'somedb.*',
+              privileges: ['SELECT', 'UPDATE'], options: ['GRANT']
             )
           }
           it {
             is_expected.to contain_mysql_grant('foo2@localhost/*.*').with(
-              user: 'foo2@localhost',
-              table: '*.*',
-              privileges: ['SELECT'],
-              options: nil,
+              user: 'foo2@localhost', table: '*.*',
+              privileges: ['SELECT'], options: nil
             )
           }
         end
@@ -260,4 +252,5 @@ describe 'mysql::server' do
       end
     end
   end
+  # rubocop:enable RSpec/NestedGroups
 end
